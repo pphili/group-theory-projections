@@ -15,12 +15,14 @@ T = Table[{x,y,z}, F(x,y,z), {x, x_min, x_max}, {y, y_min, y_max}, {z, z_min, z_
 the rest of the notebook can be run. The function `AR[m, n, r, \[Theta], \[Phi]]`, will be the projected function, where `m` and `n` variables indicate the state you are projecting from and the state you are projecting to, respectively and `r`, `\[Theta]`, `\[Phi]` are the spherical coordinates.
 
 ### Double group
-We consruct the projection operators for the \Gamma_8 representation of the tetrahedral double group. 
+We consruct the projection operators for the \Gamma_8 representation of the tetrahedral double group.
+
 The CheckDG.nb file has a default test data set that is projected accurately onto the basis partners. If you would like to use the projectors on your own data, load them into the Mathematica file under the variable name `T`. `T` must be a table with each entry containing the position coordinates and the spinor associated to that point. 
 
 ```python
-T = Table[{x,y,z}, {Fup(x,y,z), Fdown(x,y,z)}, {x, x_min, x_max}, {y, y_min, y_max}, {z, z_min, z_max}]
+T = Table[{x,y,z}, {Fup(x,y,z), Fdown(x,y,z)}, {x, x_min, x_max}, {y, y_min, y_max}, {z, z_min, z_max}].
 ```
+Important: Imported discrete function must be defined on a cubic grid centered at the origin. Furthermore the grid points must be equally spaced and symmetric (same number of grid points along the positive and negative directions).
 
 When you are ready to use the projection operators, run the cells under the heading "Projections". The `m1` and `m2` variables indicate the state you are projecting from and the state you are projecting to, respectively. Finally `Ftab` represents a table  
 ```python
