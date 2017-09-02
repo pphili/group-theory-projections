@@ -2,6 +2,8 @@
 Numerical application of the group theoretic projection operators for the T_d group. We use the tetrahedral single (double) group projection operators to projected basis states of the \Gamma_4 (\Gamma_8) representation onto each other. 
 
 ## Mathematica Version
+This version is recommended only for testing and visulaizing the projections. For large amounts of data, Mathematica's memory requirements are much larger than the Python version (see section below).
+
 First run Td_realspace_rot.nb. This initializes all of the matrices needed for the projections.
 
 ### Single Group 
@@ -13,7 +15,7 @@ T = Table[{x,y,z}, F(x,y,z), {x, x_min, x_max}, {y, y_min, y_max}, {z, z_min, z_
 the rest of the notebook can be run. The function `AR[m, n, r, \[Theta], \[Phi]]`, will be the projected function, where `m` and `n` variables indicate the state you are projecting from and the state you are projecting to, respectively and `r`, `\[Theta]`, `\[Phi]` are the spherical coordinates.
 
 ### Double group
-
+We consruct the projection operators for the \Gamma_8 representation of the tetrahedral double group. 
 The CheckDG.nb file has a default test data set that is projected accurately onto the basis partners. If you would like to use the projectors on your own data, load them into the Mathematica file under the variable name `T`. `T` must be a table with each entry containing the position coordinates and the spinor associated to that point. 
 
 ```python
