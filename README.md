@@ -1,5 +1,5 @@
 # group-theory-projections
-Numerical application of the group theoretic projection operators for the $T_d$ group. We use the tetrahedral single (double) group projection operators to projected basis states of the \Gamma_4 (\Gamma_8) representation onto each other. 
+Numerical application of the group theoretic projection operators for the T_d group. We use the tetrahedral single (double) group projection operators to projected basis states of the \Gamma_4 (\Gamma_8) representation onto each other. 
 
 ## Mathematica Version
 This version is recommended only for testing and visulaizing the projections. For large amounts of data, Mathematica's memory requirements are much larger than the Python version (see section below).
@@ -33,3 +33,8 @@ For visualization puposes the variable `view[x,y,z]` is an interpolation of the 
 
 ## Python Version
 This version of the script can be used to output the four states that transform according to the \Gamma_8 representation of the T_d double group given an initial arbitrary linear combination of these states. 
+
+### Input File
+The file input must contain a the spinor function uniformly sampled in a cubic domain with endpoints included. In other words, 
+
+The input file should be saved under the name 'psi_npts' + str(npts) + '.OUT', where npts is the number of points the function is sampled from in a cubic region. 
