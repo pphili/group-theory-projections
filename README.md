@@ -32,5 +32,4 @@ where `PFup(x,y,z)` [`PFdown(x,y,z)`] is the spin up (down) component of the pro
 For visualization puposes the variable `view[x,y,z]` is an interpolation of the projected data that can be easily plotted
 
 ## Python Version
-
-Coming Soon
+This version of the script can be used to output the four states that transform according to the \Gamma_8 representation of the T_d double group given an initial arbitrary linear combination of these states. 
