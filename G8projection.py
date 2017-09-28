@@ -57,7 +57,7 @@ def Normalize( state ):
 
 # state file
 n = input('npts value: ')
-fileName = 'cubicpsi_npts' + str(n) + '.OUT'
+fileName = 'psi_npts' + str(n) + '.OUT'
 
 # Number of cores to be used by the parallelized part of the computation
 nCores = input('number of cores: ')
