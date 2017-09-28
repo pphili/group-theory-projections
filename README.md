@@ -1,5 +1,5 @@
 # group-theory-projections
-Numerical application of the group theoretic projection operators for the T_d group. We use the tetrahedral single (double) group projection operators to projected basis states of the \Gamma_4 (\Gamma_8) representation onto each other. 
+Numerical application of the group theoretic projection operators for the $T_d$ group. We use the tetrahedral single (double) group projection operators to projected basis states of the \Gamma_4 (\Gamma_8) representation onto each other. 
 
 ## Mathematica Version
 This version is recommended only for testing and visulaizing the projections. For large amounts of data, Mathematica's memory requirements are much larger than the Python version (see section below).
