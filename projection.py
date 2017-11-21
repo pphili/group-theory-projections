@@ -24,6 +24,11 @@ def importData(fileName):
 # Function to perform a rotation on a point
 def ROT( pt, r, RS, rho ):
 
+    # dimension of the representation
+    h = float(len(range(reps.G[0].shape[0]))) 
+    # dimension of the double group
+    L = float(len(reps.G)) 
+
     newr = np.dot(r, np.array(pt[0]))
     newspin = h/L*np.conjugate(rho)*np.dot(RS, pt[1])
     return [[round(elem,6) for elem in newr], newspin]
@@ -47,6 +52,9 @@ def Normalize( state ):
 
 # Projection
 def proj( state, cores, names ):
+    h = float(len(names)) # dimension of the representation
+    L = float(len(reps.G)) # dimension of the double group
+
     state.sort()
     # start multiprocessing Pool
     p = multiprocessing.Pool(cores) 
@@ -92,17 +100,9 @@ def proj( state, cores, names ):
 # Example Valence Band of GaAs
 if __name__ == '__main__':
 
-    # Constants
-    # Order of the T_d group and \Gamma_8 representation
-    h = 4.0 # dimension of the Gamma8 representation
-    L = 48.0 # dimension of the T_d double group
-    # Integration - GaAs
-    # lc = 5.3435 * 2.0 # cubic lattice constant in Bohr radii
-
     # Inputs
     # state file
-    n = input('npts value: ')
-    fileName = 'psi3D_npts' + str(n) + '.OUT'
+    fileName = input('filename: ')
 
     # Number of cores to be used by the parallelized part of the computation
     nCores = input('number of cores: ')
@@ -110,7 +110,13 @@ if __name__ == '__main__':
     # Wavefunction
     Psi = importData(fileName)
 
-    # loop over 4 \Gamma_8 basis states
-    labels = ['HHd', 'LHd', 'LHu', 'HHu']
+    # Labels for the states. Default is a numerical label. 
+    # In default example, 4 \Gamma_8 basis states
+    try:
+        reps.labels  
+    except AttributeError:
+        labels = range(reps.G[0].shape[0])
+    else:
+        labels = reps.labels 
     
     proj(Psi, nCores, labels)
