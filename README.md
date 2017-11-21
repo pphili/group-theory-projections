@@ -32,9 +32,42 @@ where `PFup(x,y,z)` [`PFdown(x,y,z)`] is the spin up (down) component of the pro
 For visualization puposes the variable `view[x,y,z]` is an interpolation of the projected data that can be easily plotted
 
 ## Python Version
-This version of the script can be used to output the four states that transform according to the \Gamma_8 representation of the T_d double group given an initial arbitrary linear combination of these states. 
+This version of the script can be used to output the each basis state of a representation of a group given an intial arbitrary linear combination of all basis states. This is done by implementing the group-theoretic projection operators defined in Dresselhaus, M. S., Dresselhaus, G., & Jorio, A. (2007). Group theory: application to the physics of condensed matter. Springer Science & Business Media, Chapter 4. There are two files required to perform the projections, reps.py and projection.py.  
 
-### Input File
-The file input must contain a the spinor function uniformly sampled in a cubic domain with endpoints included. In other words, 
+### reps.py
+The reps.py script should contain all the matrices required for the projections. All matrices should be stored as numpy arrays. `R` should be a list of numpy arrays determining the transformation of the coordinate system under the operations of the group, `wD12` should be a list of numpy arrays describing the transformation of a spinor under the operations of the group and finally, `G` should be the representation for which we want the basis states. You can also include a list of `labels` for each basis state in the representation. The default for the `labels` will be numbers starting from 0. The ordering of the lists matters as each group element should have the same index in each list. 
 
-The input file should be saved under the name 'psi_npts' + str(npts) + '.OUT', where npts is the number of points the function is sampled from in a cubic region. 
+As an example, reps.py contains the appropriate matrices to perform the projections onto the four basis states of the \Gamma_8 representation of the tetrahedral double group. In this case, the labels represent heavy-hole and light-hole states. 
+```
+labels = ['HHd', 'LHd', 'LHu', HHu']
+```
+
+### projection.py
+The projection.py script contains the functions necessary to perform the projections. It imports reps.py. 
+
+### Usage
+Input file: The input file should be a list of points on a cubic grid, that are equally spaced in all three dimensions, centered at the origin, (0,0,0). Furthermore, the endpoints should be included. Each line of the input file should also contain the two complex numbers identifying the amplitudes of each component of the spinor at that point. This file should describe the state that will be projected onto the basis states of the desired representation. A typical line in the input file should look like:
+
+```
+x-coordinate y-coordinate z-coordinate (spin-up amplitude) (spin-down amplitude) 
+```
+
+#### Default run:
+
+```
+python projection.py 
+```
+You will be prompted to enter the filename describing the state you wish to apply the projection operators on. Here the file is called `state_to_project`
+
+```
+filename: 'state_to_project'
+```
+
+Finally, you will be prompted to enter the number of cores for which you would like to run this process on. In this example we pick 4
+
+```
+number of cores: 4
+```
+
+#### Default output:
+The output will be a series of files each named `'proj'+labels[i]+'.OUT'` for the different elements of `labels`, each one representing a projected state written out in the same convention as the input state. 
