@@ -32,12 +32,12 @@ where `PFup(x,y,z)` [`PFdown(x,y,z)`] is the spin up (down) component of the pro
 For visualization puposes the variable `view[x,y,z]` is an interpolation of the projected data that can be easily plotted
 
 ## Python Version
-This version of the script can be used to output the each basis state of a representation of a group given an intial arbitrary linear combination of all basis states. This is done by implementing the group-theoretic projection operators defined in Dresselhaus, M. S., Dresselhaus, G., & Jorio, A. (2007). Group theory: application to the physics of condensed matter. Springer Science & Business Media, Chapter 4. There are two files required to perform the projections, reps.py and projection.py.  
+This version of the script can be used to output the each basis state of a representation of a group given an intial arbitrary linear combination of all basis states. This is done by implementing the group-theoretic projection operators defined in Dresselhaus, M. S., Dresselhaus, G., & Jorio, A. (2007). Group theory: application to the physics of condensed matter. Springer Science & Business Media, Chapter 4. There are two files required to perform the projections, projection.py and a file containing the matrices necessary to construct the projection operators which we call reps.py.  
 
 ### reps.py
 The reps.py script should contain all the matrices required for the projections. All matrices should be stored as numpy arrays. `R` should be a list of numpy arrays determining the transformation of the coordinate system under the operations of the group, `wD12` should be a list of numpy arrays describing the transformation of a spinor under the operations of the group and finally, `G` should be the representation for which we want the basis states. You can also include a list of `labels` for each basis state in the representation. The default for the `labels` will be numbers starting from 0. The ordering of the lists matters as each group element should have the same index in each list. 
 
-As an example, reps.py contains the appropriate matrices to perform the projections onto the four basis states of the \Gamma_8 representation of the tetrahedral double group. In this case, the labels represent heavy-hole and light-hole states. 
+As an example, G8Td.py is the reps.py file that contains the appropriate matrices to perform the projections onto the four basis states of the \Gamma_8 representation (G8) of the tetrahedral (Td) double group. In this case, the labels represent heavy-hole and light-hole states. 
 ```
 labels = ['HHd', 'LHd', 'LHu', HHu']
 ```
