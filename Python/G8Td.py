@@ -44,10 +44,11 @@ def d (J, n, m, beta):
    
 def D ( J, n, m, alpha, beta, gamma ):
    return cmath.exp(-1j*n*alpha) * d(J, n, m, beta) * cmath.exp(-1j*m*gamma) 
+
 # labels for the basis states. In this example we have the heavy-hole and
 # light-hole labels for the basis states of the \Gamma_8 representation of the
 # tetrahedral double group.
-# labels = ['HHd', 'LHd', 'LHu', 'HHu']
+labels = ['HHd', 'LHd', 'LHu', 'HHu']
 
 # Angles: first three components are the Euler angles for the rotation and the
 # last component is 1 if the symmetry operation contains no inversion and -1 if

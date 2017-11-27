@@ -2,7 +2,7 @@
 import numpy as np
 import multiprocessing
 import functools
-import G8Td #representations of the symmetry group
+import G8Td as rep #representations of the symmetry group
 
 # Functions
 
@@ -25,9 +25,9 @@ def importData(fileName):
 def ROT( pt, r, RS, rho ):
 
     # dimension of the representation
-    h = float(len(range(G8Td.G[0].shape[0]))) 
+    h = float(len(range(rep.G[0].shape[0]))) 
     # dimension of the double group
-    L = float(len(G8Td.G)) 
+    L = float(len(rep.G)) 
 
     newr = np.dot(r, np.array(pt[0]))
     newspin = h/L*np.conjugate(rho)*np.dot(RS, pt[1])
@@ -53,7 +53,7 @@ def Normalize( state ):
 # Projection
 def proj( state, cores, names ):
     h = float(len(names)) # dimension of the representation
-    L = float(len(G8Td.G)) # dimension of the double group
+    L = float(len(rep.G)) # dimension of the double group
 
     state.sort()
     # start multiprocessing Pool
@@ -63,9 +63,9 @@ def proj( state, cores, names ):
         projPsi = [np.array([0,0])]*len(state)
         
         # projection
-        for jj, rot in enumerate(G8Td.R):
-            rs = G8Td.wD12[jj]
-            RHO = G8Td.G[jj][ii,ii]
+        for jj, rot in enumerate(rep.R):
+            rs = rep.wD12[jj]
+            RHO = rep.G[jj][ii,ii]
 
             rotPsi = p.map(functools.partial(ROT, r=rot, RS=rs, rho=RHO), state)
             rotPsi.sort()
@@ -113,10 +113,10 @@ if __name__ == '__main__':
     # Labels for the states. Default is a numerical label. 
     # In default example, 4 \Gamma_8 basis states
     try:
-        G8Td.labels  
+        rep.labels  
     except AttributeError:
-        labels = range(G8Td.G[0].shape[0])
+        labels = range(rep.G[0].shape[0])
     else:
-        labels = G8Td.labels 
+        labels = rep.labels 
     
     proj(Psi, nCores, labels)
