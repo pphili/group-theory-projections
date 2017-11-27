@@ -102,10 +102,22 @@ if __name__ == '__main__':
 
     # Inputs
     # state file
-    fileName = input('filename: ')
+    try:
+        fileName = input('filename: ')
+    except SyntaxError:
+        fileName = '../exampledata_npts21.OUT'
+    except NameError:
+        print('The file you input does not exist. Please check you have
+        specified the correct path.'
 
     # Number of cores to be used by the parallelized part of the computation
-    nCores = input('number of cores: ')
+    try:
+        nCores = input('number of cores: ')
+    except SyntaxError:
+        nCores = 1
+    except NameError:
+        print('Please specify the number of cores you wish to run this
+        computation on.')
 
     # Wavefunction
     Psi = importData(fileName)
