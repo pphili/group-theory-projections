@@ -1,8 +1,17 @@
 # group-theory-projections
-Numerical application of the group theoretic projection operators as defined in Dresselhaus, M. S., Dresselhaus, G., & Jorio, A. (2007). Group theory: application to the physics of condensed matter. Springer Science & Business Media, Chapter 4. Both versions of the code (Mathematica and Python) work in the same way, and are applied to the example of the \Gamma_8 representation of the tetrahedral double group. However, the python version is easier to apply to any representation of any group, while the Mathematica version should only be used for visualization on for states sampled on a small number of points. 
+Numerical application of the group theoretic projection operators as defined in 'Dresselhaus, M. S., Dresselhaus, G., & Jorio, A. (2007). Group theory: application to the physics of condensed matter. Springer Science & Business Media, Chapter 4'. Both versions of the code (Mathematica and Python) work in the same way, and are applied to the example of the \Gamma_8 representation of the tetrahedral double group. However, the python version is easier to apply to any representation of any group, while the Mathematica version should only be used for visualization of states sampled on a small number of points (small datasets). 
+
+The input data is the same for both versions of the code. The expected input is a list of points (x,y,z coordinates) followed by the spin-up and spin-down components of the state at that point. The sampling points must be closed under the symmetry operations of the group. In other words, 
+```math #yourmathlabel
+a + b = c
+```
+
+
+
+Each new point should be on a newline. The file exampledata_npts21.OUT is an example input. It contains a description of a valence-band state of GaAs, in the cubic unit cell. This wavefunction is sampled at 21 equally spaced points along each coordinate. 
 
 ## Mathematica Version
-This version is recommended only for testing and visulaizing the projections. For large amounts of data, Mathematica's memory requirements are much larger than the Python version (see section below).
+This version is recommended only for testing and visulizing the projections for small data files.
 
 First run Td_realspace_rot.nb. This initializes all of the matrices needed for the projections.
 
