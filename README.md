@@ -1,44 +1,40 @@
 # group-theory-projections
-Numerical application of the group theoretic projection operators as defined in 'Dresselhaus, M. S., Dresselhaus, G., & Jorio, A. (2007). Group theory: application to the physics of condensed matter. Springer Science & Business Media, Chapter 4'. Both versions of the code (Mathematica and Python) work in the same way, and are applied to the example of the \Gamma_8 representation of the tetrahedral double group. However, the python version is easier to apply to any representation of any group, while the Mathematica version should only be used for visualization of states sampled on a small number of points (small datasets). 
+Numerical application of the group theoretic projection operators as defined in 'Dresselhaus, M. S., Dresselhaus, G., & Jorio, A. (2007). Group theory: application to the physics of condensed matter. Springer Science & Business Media, Chapter 4'. Both versions of the code (Mathematica and Python) work in the same way and are applied to the example of the \Gamma_8 representation of the tetrahedral double group. The python version is easier to apply to any representation of any group, while the Mathematica version should only be used for visualization of states sampled on a small number of points (small datasets) because of its large memory requirements compared to python. 
 
-The input data is the same for both versions of the code. The expected input is a list of points (x,y,z coordinates) followed by the spin-up and spin-down components of the state at that point. The sampling points must be closed under the symmetry operations of the group. In other words, 
-```math #yourmathlabel
-a + b = c
-```
+The input data is the same for both versions of the code. The expected input is a list of points (x,y,z coordinates) followed by the spin-up and spin-down components of the state at that point. Each new point should be on a new line. The sampling points must be closed under the symmetry operations of the group. In other words, any symmetry operation of the group applied to any point in you input data yields another point in your input data. This requirement is necessary for the projection operators to yield accurate states. 
 
-
-
-Each new point should be on a newline. The file exampledata_npts21.OUT is an example input. It contains a description of a valence-band state of GaAs, in the cubic unit cell. This wavefunction is sampled at 21 equally spaced points along each coordinate. 
+The file exampledata_npts21.OUT is an example input. It contains a description of a valence-band state of GaAs, in the cubic unit cell. This wavefunction is sampled at 21 equally spaced points along each coordinate, with points sampled along the boundary of the cubic unit cell. The reason we chose the cubic unit cell and sampled points on the entire boundary of the cubic unit cell is to conform to the requirement that the sampling points must be closed under the symmetries of the group (see above paragraph). We will use the projection operators to output the four basis states of the \Gamma_8 representation of the tetrahedral double group which correspond to the two light-hole states and the two heavy-hole states.  
 
 ## Mathematica Version
-This version is recommended only for testing and visulizing the projections for small data files.
+This version is recommended only for testing and visualizing the projections for small data files. The notbooks are constructed specifically for projecting onto the basis states of the \Gamma_8 representation of the tetrahedral double group, but can be generalized to other representations of the same or any other group. 
 
-First run Td_realspace_rot.nb. This initializes all of the matrices needed for the projections.
+First run Td_realspace_rot.nb. This initializes all of the matrices needed for the projections. In this file, `L` is the order  (number of elements) of the group under consideration, the matrices `R[i]` represent the transformation of the coordinates under the application of the `i`th group element, `rs[i]` represent the corresponding transformation of the spinors, and `\[CapitalRho][i]` are the corresponding representations. These variables can be changed to store matrices corresponding to a different representation or a different group and thus implement other projection operators. 
 
-### Single Group 
-We consruct the projection operators for the \Gamma_4 representation of the tetrahedral group. The CheckSG.nb file has a default input test state that is one of the basis states of this representation. Once your function is loaded into the notebook under the variable 
+### Demonstration
+#### Single Group 
+We consruct the projection operators for the \Gamma_4 representation of the tetrahedral group. The CheckSG.nb file has a default input test state that is one of the basis states of this representation. It is loaded into the variable `T`
 
 ```python
 T = Table[{x,y,z}, F(x,y,z), {x, x_min, x_max}, {y, y_min, y_max}, {z, z_min, z_max}],
 ```
-the rest of the notebook can be run. The function `AR[m, n, r, \[Theta], \[Phi]]`, will be the projected function, where `m` and `n` variables indicate the state you are projecting from and the state you are projecting to, respectively and `r`, `\[Theta]`, `\[Phi]` are the spherical coordinates.
+where `F(x,y,z)` is the value of the wavefunction at the point `(x,y,z)`. It is not a spinor becasue we are considering single groups here. 
+The function `AR[m, n, r, \[Theta], \[Phi]]`, will be the projected function, where `m` and `n` variables indicate the state you are projecting from and the state you are projecting to, respectively and `r`, `\[Theta]`, `\[Phi]` are the spherical coordinates.
 
-### Double group
+The plots at the end of the notebook attempt to demonstrate the agreement of the projected states with the expected projections.
+
+#### Double group
 We consruct the projection operators for the \Gamma_8 representation of the tetrahedral double group.
 
-The CheckDG.nb file has a default test data set that is projected accurately onto the basis partners. If you would like to use the projectors on your own data, load them into the Mathematica file under the variable name `T`. `T` must be a table with each entry containing the position coordinates and the spinor associated to that point. 
+The CheckDG.nb file has a default test data set that is projected accurately onto the basis partners. It is loaded into the variable `T` which is different now compared to the single group case because there is a spinor associated to each point in space
 
 ```python
-T = Table[{x,y,z}, {Fup(x,y,z), Fdown(x,y,z)}, {x, x_min, x_max}, {y, y_min, y_max}, {z, z_min, z_max}].
+T = Table[{x,y,z}, {Fup(x,y,z), Fdown(x,y,z)}, {x, x_min, x_max}, {y, y_min, y_max}, {z, z_min, z_max}],
 ```
-Important: Imported discrete function must be defined on a cubic grid centered at the origin. Furthermore the grid points must be equally spaced and symmetric (same number of grid points along the positive and negative directions).
+where `Fup(x,y,z)` and `Fdown(x,y,z)` are the spin-up and spin-down components of the states respectively. Again, the plots at the end of the notebook are meant to demonstrate the agreement between the projected states and the expected output. 
 
-When you are ready to use the projection operators, run the cells under the heading "Projections". The `m1` and `m2` variables indicate the state you are projecting from and the state you are projecting to, respectively. Finally `Ftab` represents a table  
-```python
-Ftab = Table[{x,y,z}, {PFup(x,y,z), PFdown(x,y,z)}, {x, x_min, x_max}, {y, y_min, y_max}, {z, z_min, z_max}]
-```
-where `PFup(x,y,z)` [`PFdown(x,y,z)`] is the spin up (down) component of the projected function. 
-For visualization puposes the variable `view[x,y,z]` is an interpolation of the projected data that can be easily plotted
+### Example - Double Group
+
+When you are ready to use the projection operators on your data, input the path of your input file into the inic=tialization cell of the `pathToInput` variable. Again, remember to update the Td_realspace_rot.nb notebook to put the appropriate matrices for the projection operator you are interested in.  Run the cells under the heading "Projections". `Proj[ii,jj,r]` contains the projected states. The `ii` and `jj` variables indicate the state you are projecting from and the state you are projecting to, respectively, and `r={x,y,z}` is the coordinate. The functions defined by `Proj[ii,jj,r]` are interpolated using Mathematica's `Interpolation` function. 
 
 ## Python Version
 This version of the script can be used to output the each basis state of a representation of a group given an intial arbitrary linear combination of all basis states. This is done by implementing the group-theoretic projection operators defined in Dresselhaus, M. S., Dresselhaus, G., & Jorio, A. (2007). Group theory: application to the physics of condensed matter. Springer Science & Business Media, Chapter 4. There are two files required to perform the projections, projection.py and a file containing the matrices necessary to construct the projection operators which we call reps.py.  
