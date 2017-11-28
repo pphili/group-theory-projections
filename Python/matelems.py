@@ -37,105 +37,121 @@ class psi:
 
     # Evaluate matrix elements of the position operator
     def position( self, state2 ):
-        x = []
-        y = []
-        z = []
-        for ii, pt in enumerate(self.coords):
-            x.append(pt[0]*np.dot(np.conjugate(self.wf[ii]),state2.wf[ii]))
-            y.append(pt[1]*np.dot(np.conjugate(self.wf[ii]),state2.wf[ii]))
-            z.append(pt[2]*np.dot(np.conjugate(self.wf[ii]),state2.wf[ii]))
+        if self.sameDomain(state2) == True:
+            x = []
+            y = []
+            z = []
+            for ii, pt in enumerate(self.coords):
+                x.append(pt[0]*np.dot(np.conjugate(self.wf[ii]),state2.wf[ii]))
+                y.append(pt[1]*np.dot(np.conjugate(self.wf[ii]),state2.wf[ii]))
+                z.append(pt[2]*np.dot(np.conjugate(self.wf[ii]),state2.wf[ii]))
 
-        return ( self.dV*sum(x), self.dV*sum(y),self.dV*sum(z) )
+            return ( self.dV*sum(x), self.dV*sum(y),self.dV*sum(z) )
+
+        else: 
+            print('states do not have the same domain')
+    
 
     # Evaluate matrix elements of momentum operator
     def p ( self, state2 ):
-        X = {coord[0] for coord in self.coords}
-        Y = {coord[1] for coord in self.coords}
-        Z = {coord[2] for coord in self.coords}
+        if self.sameDomain(state2) == True:
+            X = {coord[0] for coord in self.coords}
+            Y = {coord[1] for coord in self.coords}
+            Z = {coord[2] for coord in self.coords}
 
-        dX = (1.+ 1./(len(X)-1))*(max(X) - min(X))/len(X)
-        dY = (1.+ 1./(len(Y)-1))*(max(Y) - min(Y))/len(Y)
-        dZ = (1.+ 1./(len(Z)-1))*(max(Z) - min(Z))/len(Y)
+            dX = (1.+ 1./(len(X)-1))*(max(X) - min(X))/len(X)
+            dY = (1.+ 1./(len(Y)-1))*(max(Y) - min(Y))/len(Y)
+            dZ = (1.+ 1./(len(Z)-1))*(max(Z) - min(Z))/len(Y)
 
-        px = []
-        py = []
-        pz = []
-        
-        up = np.array([phi[0] for phi in state2.wf])
-        down = np.array([phi[1] for phi in state2.wf])
-        
-        up = up.reshape((len(X),len(Y),len(Z)))
-        down = down.reshape((len(X),len(Y),len(Z)))
-        
-        momu = np.gradient(up, dX, dY, dZ)
-        momd = np.gradient(down, dX, dY, dZ)
-        momu = [momentum.reshape(len(self.coords)) for momentum in momu]
-        momd = [momentum.reshape(len(self.coords)) for momentum in momd]
-        
-        PX = [np.array([pu,pd]) for (pu,pd) in zip(momu[0],momd[0])]
-        PY = [np.array([pu,pd]) for (pu,pd) in zip(momu[1],momd[1])]
-        PZ = [np.array([pu,pd]) for (pu,pd) in zip(momu[2],momd[2])]
-        
-        for ii, pt in enumerate(self.wf):
-            px.append(-1j*np.conjugate(pt).dot(PX[ii]))
-            py.append(-1j*np.conjugate(pt).dot(PY[ii]))
+            px = []
+            py = []
+            pz = []
+            
+            up = np.array([phi[0] for phi in state2.wf])
+            down = np.array([phi[1] for phi in state2.wf])
+            
+            up = up.reshape((len(X),len(Y),len(Z)))
+            down = down.reshape((len(X),len(Y),len(Z)))
+            
+            momu = np.gradient(up, dX, dY, dZ)
+            momd = np.gradient(down, dX, dY, dZ)
+            momu = [momentum.reshape(len(self.coords)) for momentum in momu]
+            momd = [momentum.reshape(len(self.coords)) for momentum in momd]
+            
+            PX = [np.array([pu,pd]) for (pu,pd) in zip(momu[0],momd[0])]
+            PY = [np.array([pu,pd]) for (pu,pd) in zip(momu[1],momd[1])]
+            PZ = [np.array([pu,pd]) for (pu,pd) in zip(momu[2],momd[2])]
+            
+            for ii, pt in enumerate(self.wf):
+                px.append(-1j*np.conjugate(pt).dot(PX[ii]))
+                py.append(-1j*np.conjugate(pt).dot(PY[ii]))
             pz.append(-1j*np.conjugate(pt).dot(PZ[ii]))
 
-        return ( self.dV*sum(px), self.dV*sum(py), self.dV*sum(pz) )
+            return ( self.dV*sum(px), self.dV*sum(py), self.dV*sum(pz) )
 
+        else: 
+            print('states do not have the same domain')
 
     # Matrix elements of the spin operator 
     def spin( self, state2 ):
-        paulix = np.array([[0,1],[1,0]])
-        pauliy = np.array([[0,-1j],[1j,0]])
-        pauliz = np.array([[1,0],[0,-1]])
+        if self.sameDomain(state2) == True:
+            paulix = 1.0/2.0*np.array([[0,1],[1,0]])
+            pauliy = 1.0/2.0*np.array([[0,-1j],[1j,0]])
+            pauliz = 1.0/2.0*np.array([[1,0],[0,-1]])
 
-        x = []
-        y = []
-        z = []
-        for ii, pt in enumerate(self.wf):
-            x.append(np.conjugate(pt).dot(paulix).dot(state2.wf[ii]))
-            y.append(np.conjugate(pt).dot(pauliy).dot(state2.wf[ii]))
-            z.append(np.conjugate(pt).dot(pauliz).dot(state2.wf[ii]))
+            x = []
+            y = []
+            z = []
+            for ii, pt in enumerate(self.wf):
+                x.append(np.conjugate(pt).dot(paulix).dot(state2.wf[ii]))
+                y.append(np.conjugate(pt).dot(pauliy).dot(state2.wf[ii]))
+                z.append(np.conjugate(pt).dot(pauliz).dot(state2.wf[ii]))
 
-        return ( self.dV*sum(x), self.dV*sum(y), self.dV*sum(z) )
+            return ( self.dV*sum(x), self.dV*sum(y), self.dV*sum(z) )
+        
+        else: 
+            print('states do not have the same domain')
 
     # Matrix elements of Orbital Angular Momentum    
     def L ( self, state2 ):
-        X = {coord[0] for coord in self.coords}
-        Y = {coord[1] for coord in self.coords}
-        Z = {coord[2] for coord in self.coords}
+        if self.sameDomain(state2) == True:
+            X = {coord[0] for coord in self.coords}
+            Y = {coord[1] for coord in self.coords}
+            Z = {coord[2] for coord in self.coords}
 
-        dX = (1.+ 1./(len(X)-1))*(max(X) - min(X))/len(X)
-        dY = (1.+ 1./(len(Y)-1))*(max(Y) - min(Y))/len(Y)
-        dZ = (1.+ 1./(len(Z)-1))*(max(Z) - min(Z))/len(Y)
-        
-        Lx = []
-        Ly = []
-        Lz = []
+            dX = (1.+ 1./(len(X)-1))*(max(X) - min(X))/len(X)
+            dY = (1.+ 1./(len(Y)-1))*(max(Y) - min(Y))/len(Y)
+            dZ = (1.+ 1./(len(Z)-1))*(max(Z) - min(Z))/len(Y)
+            
+            Lx = []
+            Ly = []
+            Lz = []
 
-        up = np.array([phi[0] for phi in state2.wf])
-        down = np.array([phi[1] for phi in state2.wf])
-        
-        up = up.reshape((len(X),len(Y),len(Z)))
-        down = down.reshape((len(X),len(Y),len(Z)))
+            up = np.array([phi[0] for phi in state2.wf])
+            down = np.array([phi[1] for phi in state2.wf])
+            
+            up = up.reshape((len(X),len(Y),len(Z)))
+            down = down.reshape((len(X),len(Y),len(Z)))
 
-        momu = np.gradient(up, dX, dY, dZ)
-        momd = np.gradient(down, dX, dY, dZ)
-        momu = [momentum.reshape(len(self.coords)) for momentum in momu]
-        momd = [momentum.reshape(len(self.coords)) for momentum in momd]
-        
-        PX = [np.array([pu,pd]) for (pu,pd) in zip(momu[0],momd[0])]
-        PY = [np.array([pu,pd]) for (pu,pd) in zip(momu[1],momd[1])]
-        PZ = [np.array([pu,pd]) for (pu,pd) in zip(momu[2],momd[2])]
-        
-        for ii, pt in enumerate(self.wf):
-            Lx.append(-1j*np.conjugate(pt).dot(self.coords[ii][1]*PZ[ii]-self.coords[ii][2]*PY[ii]))
-            Ly.append(-1j*np.conjugate(pt).dot(self.coords[ii][2]*PX[ii]-self.coords[ii][0]*PZ[ii]))
-            Lz.append(-1j*np.conjugate(pt).dot(self.coords[ii][0]*PY[ii]-self.coords[ii][1]*PX[ii]))
+            momu = np.gradient(up, dX, dY, dZ)
+            momd = np.gradient(down, dX, dY, dZ)
+            momu = [momentum.reshape(len(self.coords)) for momentum in momu]
+            momd = [momentum.reshape(len(self.coords)) for momentum in momd]
+            
+            PX = [np.array([pu,pd]) for (pu,pd) in zip(momu[0],momd[0])]
+            PY = [np.array([pu,pd]) for (pu,pd) in zip(momu[1],momd[1])]
+            PZ = [np.array([pu,pd]) for (pu,pd) in zip(momu[2],momd[2])]
+            
+            for ii, pt in enumerate(self.wf):
+                Lx.append(-1j*np.conjugate(pt).dot(self.coords[ii][1]*PZ[ii]-self.coords[ii][2]*PY[ii]))
+                Ly.append(-1j*np.conjugate(pt).dot(self.coords[ii][2]*PX[ii]-self.coords[ii][0]*PZ[ii]))
+                Lz.append(-1j*np.conjugate(pt).dot(self.coords[ii][0]*PY[ii]-self.coords[ii][1]*PX[ii]))
 
 
-        return ( self.dV*sum(Lx), self.dV*sum(Ly), self.dV*sum(Lz) )
+            return ( self.dV*sum(Lx), self.dV*sum(Ly), self.dV*sum(Lz) )
+
+        else: 
+            print('states do not have the same domain')
 
 if __name__ == '__main__':
     # Example for matrix elements between heavy-hole and light-hole states
