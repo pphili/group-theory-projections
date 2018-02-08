@@ -5,6 +5,8 @@ The input data is the same for both versions of the code. The expected input is 
 
 The file exampledata_npts21.OUT is an example input. It contains a description of a valence-band state of GaAs, in the cubic unit cell. This wavefunction is sampled at 21 equally spaced points along each coordinate, with points sampled along the boundary of the cubic unit cell. The reason we chose the cubic unit cell and sampled points on the entire boundary of the cubic unit cell is to conform to the requirement that the sampling points must be closed under the symmetries of the group (see above paragraph). We will use the projection operators to output the four basis states of the \Gamma_8 representation of the tetrahedral double group which correspond to the two light-hole states and the two heavy-hole states.  
 
+For the projection operators applied to angular momentum eigenstates, see the `group-theory-projections_sh` directory
+
 ## Mathematica Version
 This version is recommended only for testing and visualizing the projections for small data files. The notbooks are constructed specifically for projecting onto the basis states of the \Gamma_8 representation of the tetrahedral double group, but can be generalized to other representations of the same or any other group. 
 
