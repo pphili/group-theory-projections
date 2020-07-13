@@ -36,7 +36,7 @@ where `Fup(x,y,z)` and `Fdown(x,y,z)` are the spin-up and spin-down components o
 
 ### Example - Double Group
 
-When you are ready to use the projection operators on your data, input the path of your input file into the inic=tialization cell of the `pathToInput` variable. Again, remember to update the Td_realspace_rot.nb notebook to put the appropriate matrices for the projection operator you are interested in.  Run the cells under the heading "Projections". `Proj[ii,jj,r]` contains the projected states. The `ii` and `jj` variables indicate the state you are projecting from and the state you are projecting to, respectively, and `r={x,y,z}` is the coordinate. The functions defined by `Proj[ii,jj,r]` are interpolated using Mathematica's `Interpolation` function. 
+When you are ready to use the projection operators on your data, input the path of your input file into the initialization cell of the `pathToInput` variable. Again, remember to update the Td_realspace_rot.nb notebook to put the appropriate matrices for the projection operator you are interested in.  Run the cells under the heading "Projections". `Proj[ii,jj,r]` contains the projected states. The `ii` and `jj` variables indicate the state you are projecting from and the state you are projecting to, respectively, and `r={x,y,z}` is the coordinate. The functions defined by `Proj[ii,jj,r]` are interpolated using Mathematica's `Interpolation` function. 
 
 ## Python Version
 Similarly to the Mathematica version of the script, there are two files required to perform the projections, projection.py and a file containing the matrices necessary to construct the projection operators which we call reps.py.  
@@ -93,9 +93,6 @@ returns a tuple corresponding to the matrix elements of (position) x, y and z, d
 
 `psi.p(psi2)`
 returns a tuple corresponding to the matrix elements of (momentum) p_x, p_y and p_z, determined from a Riemann sum over all the coordinates if `psi.sameDomain(psi2) = True`.
-
-`psi.spin(psi2)`
-returns a tuple corresponding to the matrix elements of (spin) S_x, S_y and S_z, determined from a Riemann sum over all the coordinates if `psi.sameDomain(psi2) = True`.
 
 `psi.L(psi2)`
 returns a tuple corresponding to the matrix elements of (angular momentum) L_x, L_y and L_z, determined from a Riemann sum over all the coordinates if `psi.sameDomain(psi2) = True`.
