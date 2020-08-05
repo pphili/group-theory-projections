@@ -79,7 +79,7 @@ number of cores: 4
 The output will be a series of files each named `'proj'+labels[i]+'.OUT'` for the different elements of `labels`, each one representing a projected state written out in the same convention as the input state. In the default case the output will be four files each representing a different basis state of the \Gamma_8 representation of the tetrahedral double group. More specifically, the four output states will be the heavy-hole and light-hole states at the \Gamma point of GaAs. 
 
 ### matelems.py
-This module can be used to compute the matrix elements of position, momentum, spin and angular momentum between two states defined on a grid in real space. 
+This module can be used to compute the matrix elements of position, momentum, spin and angular momentum between two states defined on a grid in real space. The methods provided here output matrix elements associated with the states directly output from the projection operators. We note that in general, the projection operators output basis states with an overall phase that may need to be accounted for when computing matrix elements. 
 
 `psi(coords , wf)` 
 creates a `psi` object with coordinates `coords` and spinor at each coordinate determined by `wf`. `coords` is a list of lists, while `wf` is a list of numpy arrays. We take here the coordinates to be uniformly spaced. `dV` contains the volume element determined from the coordinates spacing to be used for numerical integrations. 
@@ -96,6 +96,9 @@ returns a tuple corresponding to the matrix elements of (momentum) p_x, p_y and 
 
 `psi.L(psi2)`
 returns a tuple corresponding to the matrix elements of (angular momentum) L_x, L_y and L_z, determined from a Riemann sum over all the coordinates if `psi.sameDomain(psi2) = True`.
+
+`psi.spin(psi2)`
+returns a tuple corresponding to the matrix elements of (spin angular momentum) S_x, S_y and S_z, determined from a Riemann sum over all the coordinates if `psi.sameDomain(psi2) = True`.
 
 `psiFromFile( fileName, r = 6 )`
 returns a `psi` object from a file with name `filename`. `r` determines to which decimal the coordinates should be rounded. 
